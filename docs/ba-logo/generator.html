@@ -1,12 +1,17 @@
+
 <!doctype html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" type="text/css" href="fonts/RoGSans/font.css" />
-  <link rel="stylesheet" type="text/css" href="fonts/GlowSans/font.css" />
+  <link rel="stylesheet" type="text/css"
+    href="https://gcore.jsdelivr.net/gh/CeriseBouquet/static@master/fonts/RoGSans_sliced/font.css" />
+  <link rel="stylesheet" type="text/css"
+    href="https://gcore.jsdelivr.net/gh/CeriseBouquet/static@master/fonts/GlowSans/font.css" />
   <title class="i18n" data-i18n="title">Blue Archive Logo Generator</title>
+  <script src="ba-logo.js"></script>
+  <link rel="stylesheet" href="ba-logo.css"></link>
 </head>
 
 <body>
@@ -33,16 +38,15 @@
     <div class="my-2">
       <label class="cursor-pointer label justify-start mx-10">
         <input type="checkbox" class="toggle toggle-primary" id="transparent" />
-        <span class="i18n label-text text-base ml-4 mr-16" data-i18n="transparent-background">Transparent
-          Background</span>
+        <span class="i18n label-text text-base ml-4 mr-16">透明背景</span>
       </label>
     </div>
     <div class="mx-6 my-4">
       <div class="collapse collapse-arrow bg-base-100">
         <input type="checkbox" />
-        <div class="i18n collapse-title font-medium" data-i18n="advance">Advance settings</div>
+        <div class="i18n collapse-title font-medium">高级设置</div>
         <div class="collapse-content">
-          <div class="i18n" data-i18n="halo-cross">Halo & Cross position</div>
+          <div class="i18n">光环位置</div>
           <div class="flex justify-evenly my-4">
             <span class="flex-1"><span class="mr-2">X</span><input type="number" placeholder="Type here" value="-15"
                 class="input input-bordered input-sm input-primary w-32 mr-2" id="graphX" /></span>
@@ -53,6 +57,7 @@
       </div>
     </div>
     <div class="flex justify-evenly my-4">
+      <span><button class="i18n btn btn-primary" id="back" data-i18n="back"><a href="../index.html">Back</a></button></span>
       <span><button class="i18n btn btn-primary" id="save" data-i18n="save">Save</button></span>
       <span><button class="i18n btn btn-primary" id="copy" data-i18n="copy">Copy</button></span>
     </div>
@@ -69,23 +74,25 @@
   </section>
   <footer>
     <section class="w-full mx-auto my-8 sm:w-96 px-4">
-      <h2 class="i18n text-2xl font-bold leading-loose" data-i18n="font-title">Used Fonts</h2>
+      <h2 class="i18n text-2xl font-bold leading-loose">使用的项目</h2>
       <ul class="list-disc leading-relaxed text-lg font-normal mb-8 px-6">
         <li>
-          <span class="i18n" data-i18n="main-font">Main font: </span>
+          <span class="i18n">Main font:</span>
           <a href="https://www.morisawa.co.jp/fonts/specimen/1646" target="_blank">RoG2サンセリフStd B</a>
         </li>
         <li>
-          <span class="i18n" data-i18n="fallback-font">Fallback font: </span>
+          <span class="i18n">Fallback font:</span>
           <a href="https://github.com/welai/glow-sans" target="_blank" class="i18n" data-i18n="glow">Wêlai Glow Sans</a>
         </li>
+        <li>
+          <span class="i18n">Used Gitrepo:</span>
+          <a href="https://github.com/nulla2011/Bluearchive-logo" target="_blank"
+          class="text-md">nulla2011/Bluearchive-logo</a>
+        </li>
       </ul>
-      <h2 class="i18n text-2xl font-bold leading-loose" data-i18n="github-repo">GitHub repo</h2>
-      <a href="https://github.com/nulla2011/Bluearchive-logo" target="_blank"
-        class="text-md">https://github.com/nulla2011/Bluearchive-logo</a>
     </section>
   </footer>
-  <script type="module" src="/src/main.ts"></script>
+  
 </body>
 
 </html>
