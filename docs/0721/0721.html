@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <title>onani论证器</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            background-color: #f5f5f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 300px;
+        }
+
+        .input-field {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #342042;
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            width: calc(100% - 12px);
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-bottom: 1px solid #757575;
+            background-color: transparent;
+            outline: none;
+        }
+
+        input[type="number"]:focus {
+            border-bottom: 2px solid #342042;
+        }
+
+        .result {
+            font-size: 18px;
+            color: #342042;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        h3 {
+            font-size: 24px;
+            color: #342042;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        p {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        a {
+            color: #342042;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="input-field">
+            <a href="../index.html">返回</a>
+            <h3>0721数学论证器</h3>
+            <label for="userInput"><span>输入一个自然数</span></label>
+            <input type="number" id="userInput" oninput="calculateOnani()" required />
+        </div>
+        <div class="result" id="result"></div>
+        <footer style="text-align: center; margin-top: 20px;">
+            <p>版本0.0721</p>
+            <p>原作<a href="https://kibidango.top" target="_blank">Kibidango086</a>. 根据<a
+                    href="https://www.zhihu.com/question/264059954" target="_blank">知乎</a>回答改编.</p>
+        </footer>
+    </div>
+    <script>
+        const onani = {
+            0: '0*7*2*1',
+            1: '-0*7+2-1',
+            2: '(-0*7+2)*1',
+            3: '-0*7+2+1',
+            4: '-0+7-2-1',
+            5: '(-0+7-2)*1',
+            6: '-0+7-2+1',
+            7: '(-0+7)*(2-1)',
+            8: '-0+7+2-1',
+            9: '(-0+7+2)*1',
+            10: '-0+7+2+1',
+            13: '(-0+7)*2-1',
+            14: '(-0+7)*2*1',
+            15: '(-0+7)*2+1',
+            21: '(-0+7)*(2+1)',
+            48: '(-0-7)**2-1',
+            49: '(-0-7)**2*1',
+            50: '(-0-7)**2+1',
+            11: '((-0+7)*2-1-0-7)*2-1',
+            12: '((-0+7)*2-1-0-7)*2*1',
+            16: '((-0+7)*2+1-0-7)*2*1',
+            17: '((-0+7)*2+1-0-7)*2+1',
+            18: '-0+7+2-1-0+7+2+1',
+            19: '(-0+7)*2-1-0+7-2+1',
+            20: '((-0+7)*2+1-0+7-2)*1',
+            22: '((-0+7)*2-1-0+7+2)*1',
+            23: '(-0+7)*2-1-0+7+2+1',
+            24: '-0+7+2*(1-0+7)+2-1',
+            25: '(-0+7-2-1-0)*7-2-1',
+            26: '((-0+7-2-1-0)*7-2)*1',
+            27: '(-0+7-2-1-0)*7-2+1',
+            28: '(-0+7)*2+1-0+7*2-1',
+            29: '(-0+7+2-1-0+7)*2-1',
+            30: '(-0+7+2-1-0+7)*2*1',
+            31: '(-0+7+2-1-0+7)*2+1',
+            32: '((-0-7+2)*(1-0-7)+2)*1',
+            33: '(-0-7+2)*(1-0-7)+2+1',
+            34: '(-0+7+2+1-0+7)*2*1',
+            35: '((-0-7)*2+1-0+7)**2-1',
+            36: '((-0-7)*2+1-0+7)**2*1',
+            37: '(-0+7-2)*(1-0+7)-2-1',
+            38: '((-0+7-2)*(1-0+7)-2)*1',
+            39: '(-0+7-2)*(1-0+7)-2+1',
+            40: '(-0-7)**2-1-0-7-2+1',
+            41: '(-0+7-2)*(1-0+7)+2-1',
+            42: '((-0+7-2)*(1-0+7)+2)*1',
+            43: '(-0+7-2)*(1-0+7)+2+1',
+            44: '(-0-7)**2-1-0-7+2+1',
+            45: '(-0-7)**2-1-0*7-2-1',
+            46: '((-0-7)**2-1-0*7-2)*1',
+            47: '(-0-7)**2-1-0*7-2+1',
+        };
+
+        function printOnani(s, dic) {
+            let result = '';
+            while (s > 50) {
+                const digi = Math.floor(Math.log10(s) / 1.6989700043360188047862611052755);
+                const tmp = s % (50 ** digi);
+                result += `(${dic[parseInt((s - tmp) / (50 ** digi))]})*((-0-7)**2+1)**(${dic[parseInt(digi)]})+`;
+                s -= s - tmp;
+            }
+            result += dic[s];
+            return result;
+        }
+
+        function calculateOnani() {
+            const userInput = parseInt(document.getElementById('userInput').value);
+            const resultDiv = document.getElementById('result');
+            const result = printOnani(userInput, onani);
+            resultDiv.textContent = `${userInput} = ${result}`;
+        }
+    </script>
+</body>
+
+</html>
