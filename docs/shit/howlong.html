@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>维度长度计算器</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+        
+        .input-group {
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: bold;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+        }
+        
+        .result {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .dimension-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>维度长度计算器</h1>
+        <p>请输入你的名字（昵称），计算属于你的维度长度</p>
+        
+        <div class="input-group">
+            <label for="nameInput">你的名字：</label>
+            <input type="text" id="nameInput" placeholder="请输入你的名字或昵称">
+        </div>
+        
+        <button onclick="calculateDimension()">计算维度长度</button>
+        
+        <div id="result" class="result" style="display: none;">
+            <p>维度长度：</p>
+            <div class="dimension-value" id="dimensionValue"></div>
+            <p id="dimensionDescription"></p>
+        </div>
+    </div>
+
+    <script>
+        function calculateDimension() {
+            const name = document.getElementById('nameInput').value.trim();
+            
+            if (!name) {
+                alert('请输入你的名字！');
+                return;
+            }
+            
+            const dimension = calculateDimensionLength(name);
+            
+            document.getElementById('dimensionValue').textContent = dimension.toFixed(2);
+            document.getElementById('result').style.display = 'block';
+            
+            let description = '';
+            if (dimension < 10) {
+                description = '这是一个独特的维度长度，象征着内在的深度和潜力。';
+            } else if (dimension < 20) {
+                description = '这是一个平衡的维度长度，代表着稳定和和谐。';
+            } else if (dimension < 30) {
+                description = '这是一个活跃的维度长度，预示着充满活力的能量。';
+            } else {
+                description = '这是一个强大的维度长度，蕴含着巨大的可能性。';
+            }
+            
+            document.getElementById('dimensionDescription').textContent = description;
+        }
+        
+        function calculateDimensionLength(name) {
+            let asciiProductLog = 0;
+            for (let i = 0; i < name.length; i++) {
+                const charCode = name.charCodeAt(i) + 1;
+                asciiProductLog += Math.log(charCode) * 10;
+            }
+            
+            const uniqueChars = new Set(name).size;
+            
+            let positionWeightedSum = 0;
+            for (let i = 0; i < name.length; i++) {
+                positionWeightedSum += (name.charCodeAt(i) * (i + 1)) % 17;
+            }
+            
+            let fibonacciFactor = 0;
+            if (name.length >= 2) {
+                for (let i = 1; i < name.length; i++) {
+                    fibonacciFactor += (name.charCodeAt(i-1) * name.charCodeAt(i)) % 23;
+                }
+            } else if (name.length === 1) {
+                fibonacciFactor = name.charCodeAt(0) % 23;
+            }
+            
+            let hash = 0;
+            for (let i = 0; i < name.length; i++) {
+                const char = name.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            hash = Math.abs(hash);
+            
+            let diffSum = 0;
+            for (let i = 1; i < name.length; i++) {
+                diffSum += Math.abs(name.charCodeAt(i) - name.charCodeAt(i-1));
+            }
+            
+            let baseValue = (asciiProductLog + positionWeightedSum) % 50;
+            let uniqueFactor = uniqueChars * 7;
+            let fibFactor = fibonacciFactor % 13;
+            let hashFactor = (hash % 37) * 0.5;
+            let diffFactor = (diffSum % 29) * 0.3;
+            
+            let dimension = (baseValue * 1.2 + uniqueFactor + fibFactor * 1.5 + hashFactor + diffFactor) % 100;
+            
+            dimension = (dimension + Math.sin(hash) * 50) % 100;
+            
+            dimension = Math.abs(dimension);
+            if (dimension === 0) {
+                dimension = 1;
+            }
+            
+            if (dimension < -1 || dimension > 35) {
+                const adjustedDimension = (hash % 37) - 1;
+                
+                if (adjustedDimension < -1 || adjustedDimension > 35) {
+                    let charSum = 0;
+                    for (let i = 0; i < name.length; i++) {
+                        charSum += name.charCodeAt(i);
+                    }
+                    return (charSum % 37) - 1;
+                }
+                return adjustedDimension;
+            }
+            
+            let geometricMean = 1;
+            for (let i = 0; i < name.length; i++) {
+                geometricMean *= (name.charCodeAt(i) + 1);
+            }
+            geometricMean = Math.pow(geometricMean, 1 / name.length);
+            
+            const secondaryAlgorithm = (geometricMean % 37) - 1;
+            const combinedResult = (dimension * 0.7 + secondaryAlgorithm * 0.3);
+            
+            return combinedResult;
+        }
+        
+        document.getElementById('nameInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                calculateDimension();
+            }
+        });
+    </script>
+    <div style="position: fixed; bottom: 10px; right: 10px; color: #999; font-size: 12px;">
+        By:Nekona Alice
+    </div>
+    <script>
+        (function() {
+            function validateEnvironment() {
+                if (typeof window === 'undefined' || typeof document === 'undefined') {
+                    console.error('环境验证失败');
+                    return false;
+                }
+                return true;
+            }
+            
+            function protectCode() {
+                const config = Object.freeze({
+                    version: '1.0.0',
+                    author: 'Nekona Alice',
+                    license: ' proprietary',
+                    created: new Date()
+                });
+                
+                Object.defineProperty(window, '__dimension_calculator__', {
+                    value: config,
+                    writable: false,
+                    configurable: false
+                });
+            }
+            
+            function checkIntegrity(data) {
+                if (!data || typeof data !== 'string') {
+                    throw new Error('输入数据格式错误');
+                }
+                return true;
+            }
+            
+            function safeExecute(fn) {
+                return function() {
+                    try {
+                        return fn.apply(this, arguments);
+                    } catch (e) {
+                        console.error('执行错误:', e);
+                        return null;
+                    }
+                };
+            }
+            
+            function sanitizeInput(input) {
+                if (typeof input !== 'string') return '';
+                return input.replace(/[<>'"&]/g, function(match) {
+                    return {
+                        '<': '&lt;',
+                        '>': '&gt;',
+                        '"': '&quot;',
+                        "'": '&#x27;',
+                        '&': '&amp;'
+                    }[match];
+                });
+            }
+            
+            function monitorPerformance(fn, name) {
+                return function() {
+                    const start = performance.now();
+                    const result = fn.apply(this, arguments);
+                    const end = performance.now();
+                    console.log(`${name} 执行时间: ${end - start}ms`);
+                    return result;
+                };
+            }
+            
+            function validateDimension(dimension) {
+                if (typeof dimension !== 'number' || isNaN(dimension)) {
+                    throw new Error('维度值无效');
+                }
+                if (dimension < -1 || dimension > 35) {
+                    throw new Error('维度值超出范围');
+                }
+                return true;
+            }
+            
+            function preventMemoryLeak() {
+                window.addEventListener('beforeunload', function() {
+                    if (window.__dimension_calculator__) {
+                        delete window.__dimension_calculator__;
+                    }
+                });
+            }
+            
+            function typeCheck(value, expectedType) {
+                const actualType = typeof value;
+                if (actualType !== expectedType) {
+                    throw new Error(`类型错误: 期望 ${expectedType}, 实际 ${actualType}`);
+                }
+                return true;
+            }
+            
+            function validateComplexity(name) {
+                if (!name) return 0;
+                const uniqueChars = new Set(name).size;
+                const length = name.length;
+                return {
+                    uniqueness: uniqueChars / length,
+                    density: uniqueChars * length,
+                    entropy: calculateEntropy(name)
+                };
+            }
+            
+            function calculateEntropy(str) {
+                if (!str) return 0;
+                const charMap = {};
+                for (let i = 0; i < str.length; i++) {
+                    charMap[str[i]] = (charMap[str[i]] || 0) + 1;
+                }
+                
+                let entropy = 0;
+                const len = str.length;
+                for (const char in charMap) {
+                    const prob = charMap[char] / len;
+                    entropy -= prob * Math.log2(prob);
+                }
+                return entropy;
+            }
+            
+            function defensiveValidate(input) {
+                try {
+                    typeCheck(input, 'string');
+                    checkIntegrity(input);
+                    const sanitized = sanitizeInput(input);
+                    return sanitized;
+                } catch (e) {
+                    console.error('防御性验证失败:', e);
+                    return '';
+                }
+            }
+            
+            function safeCalculateDimension(name) {
+                try {
+                    const validatedInput = defensiveValidate(name);
+                    const dimension = calculateDimensionLength(validatedInput);
+                    validateDimension(dimension);
+                    return dimension;
+                } catch (e) {
+                    console.error('计算过程出错:', e);
+                    return Math.floor(Math.random() * 37) - 1;
+                }
+            }
+            
+            if (validateEnvironment()) {
+                protectCode();
+                preventMemoryLeak();
+                
+                const originalCalculate = window.calculateDimension;
+                window.calculateDimension = function() {
+                    try {
+                        const name = document.getElementById('nameInput').value.trim();
+                        const safeName = sanitizeInput(name);
+                        document.getElementById('nameInput').value = safeName;
+                        
+                        const dimension = safeCalculateDimension(safeName);
+                        
+                        let dimensionValue = parseFloat(dimension.toFixed(2));
+                        if (Number.isInteger(dimensionValue)) {
+                            let hash = 0;
+                            for (let i = 0; i < name.length; i++) {
+                                const char = name.charCodeAt(i);
+                                hash = ((hash << 5) - hash) + char;
+                                hash = hash & hash;
+                            }
+                            hash = Math.abs(hash);
+                            const hashFactor = (hash % 99) / 100; 
+                            dimensionValue = parseFloat((dimension + hashFactor).toFixed(2));
+                        }
+                        document.getElementById('dimensionValue').textContent = dimensionValue.toFixed(2);
+                        document.getElementById('result').style.display = 'block';
+                        
+                        let description = '';
+                        if (dimension < 10) {
+                            description = '这是一个独特的维度长度，象征着内在的深度和潜力。';
+                        } else if (dimension < 20) {
+                            description = '这是一个平衡的维度长度，代表着稳定和和谐。';
+                        } else if (dimension < 30) {
+                            description = '这是一个活跃的维度长度，预示着充满活力的能量。';
+                        } else {
+                            description = '这是一个强大的维度长度，蕴含着巨大的可能性。';
+                        }
+                        
+                        document.getElementById('dimensionDescription').textContent = description;
+                    } catch (e) {
+                        console.error('计算函数执行错误:', e);
+                        alert('计算过程中发生错误，请重试');
+                    }
+                };
+            }
+            
+            setInterval(function() {
+                if (window.__dimension_calculator__) {
+                    if (window.__dimension_calculator__.version !== '1.0.0') {
+                        console.warn('检测到配置被修改');
+                    }
+                }
+            }, 5000);
+        })();
+    </script>
+</body>
+</html>
